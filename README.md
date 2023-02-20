@@ -37,5 +37,8 @@ The project report should be written using R Markdown, Latex or Word. The code, 
 
 ## Proposal
 
+Our team is finalizing what the full analysis of the dataset will look like, but a preliminary template and breakdown of work by team member has been included below. The different colors represent which components of the project different team members would take on. It is anticipated that all members will assist in the finalization of the report.
+
+![Project Workflow](./Analysis/Img/project-workflow.png)
 
 
