@@ -293,7 +293,9 @@ price_level_count <- table(mobile_dataset$Price_Level) %>% as.data.frame()
 ggplot(data = price_level_count, mapping = aes(x = Var1, y = Freq)) + geom_bar(stat = "identity") + 
   labs(y="Price Level", x="Count", subtitle="Count for different Price Level")
 ```
+
 ### 2.1.1 Quadratic Discriminant Analysis (LDA)
+
 We want to use LDA to classify our observations into mobile phone price level: "Low", "Medium", "High", "Very High". However, we know LDA has 2 assumptions:
 
 - The distribution of the predictors is normally distributed within each group.
