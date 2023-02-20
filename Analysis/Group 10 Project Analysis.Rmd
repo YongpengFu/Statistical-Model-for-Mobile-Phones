@@ -5,16 +5,16 @@ author:
 - Stuart Finley(30191070), Andrii Voitkiv(30199373)
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 output:
-  html_document:
-    toc: yes
-    df_print: paged
-  lof: yes
-  lot: yes
   pdf_document:
     extra_dependencies:
     - bbm
     - xcolor
     toc: yes
+  lof: yes
+  lot: yes
+  html_document:
+    toc: yes
+    df_print: paged
 geometry: margin=3cm
 subtitle: Final report (MDSA Winter 2023)
 urlcolor: blue
@@ -23,7 +23,7 @@ header-includes: \usepackage{fvextra} \DefineVerbatimEnvironment{Highlighting}{V
 ---
 
 
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 #knitr::opts_chunk$set(echo = TRUE)
 library(survey) #Used for statistical analysis
 library(sampling) #Used for sample data
@@ -81,7 +81,7 @@ Some initial steps can be completed to clean the dataset and create new variable
 4. Add additional column to segment the **Price** into 4 different levels;
 5. Add additional column to determine if a phone has %G feature or not based on **Model** information.
 
-```{r Cleanup, results='hold'}
+```{r Cleanup, warning=FALSE, results='hold'}
 mobile_dataset <- read.csv("./Updated_Mobile_Dataset.csv")
 #Step 0: convert Model and Company letter to uppercase.
 mobile_dataset$Model <- toupper(mobile_dataset$Model)
@@ -278,7 +278,7 @@ grid.arrange(plot1, plot2, ncol=2)
 
 \pagebreak
 
-#  Chapter 2: Statistical Data Analysis
+#  Chapter 2: Predicting the Mobile Phone Price Level
 ## 2.1: Prediction of Mobile Phone Price Level
 In this section, we will use a range of statistical models to predict mobile phone price level: "Low", "Medium", "High", "Very High" based on some selected features.
 
@@ -901,7 +901,7 @@ misClassError
 
 We can see from our results that the most accurate classifier is when k = 5.
 
-## 3.4 Results from Classifier Predictions.
+## 3.4: Results from Classifier Predictions.
 
 In conclusion, we have evaluated five different classifiers, including K-nearest neighbors (KNN), Naive Bayes, logistic regression, Quadratic Discriminant Analysis (QDA), and Linear Discriminant Analysis (LDA), on a dataset that did not follow a Gaussian distribution and had unequal covariance matrices as well as correlation between predictors. Our results show that KNN had the lowest misclassification rate of 0.16, followed by logistic regression at 0.18, QDA and Naive Bayes at 0.21, and LDA at 0.24. These findings suggest that KNN and logistic regression may be effective classifiers for non-Gaussian and non-equal covariance data, while QDA, Naive Bayes, and LDA may not perform as well. 
 
@@ -1002,7 +1002,7 @@ mlr_full_model <- lm(Price ~ Rating + No_of_ratings + TotalReviwes + RamSize_inG
 Let's apply VIF test to confirm if there is any collinearity between the variables.
 ```{r message = FALSE, warning = FALSE}
 # Check the “variance inflation factor” for each coefficient using imcdiag function from the package "regclass"
-library('regclass')
+library(regclass)
 VIF(mlr_full_model)
 ```
 
@@ -1221,7 +1221,7 @@ rmse6 <- sqrt(mean((pruned_tree_pred - test_data$Price)^2))
 
 The RMSE after pruning is `r rmse6`.
 
-## Cross-validation
+## 5.3: Cross-validation
 Let's create 10 folds and calculate the cross-validation error for both models.
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 # Create 10 folds
@@ -1264,7 +1264,7 @@ cv_error_tree <- mean(cv_error_tree)
 
 Cross-validation error for our best linear regression model is `r cv_error_tree`.
 
-## Conclusions
+## 5.4: Conclusions
 In this chapter, we have built a linear regression model and a regression tree model to predict the price of a mobile phone. We have used the RMSE value and cross-validation method to compare the models. The RMSE value for the linear regression model is `r rmse3` and the RMSE value for the regression tree model is `r rmse6`. Therefore, the regression tree model is better than the linear regression model. Besides, the Multiple Linear Regression model doesn't meet the assumptions. Comparing to the Regression Tree model, it doesn't have such assumptions. Therefore, we recommend using the Regression Tree model for prediction.
 
 # Chapter 6: Using Regression to Determine if a Phone is Apple
@@ -1408,7 +1408,7 @@ However, the non-Apple phone dataset does have homoscedasticity.
 
 We continue with our analysis despite the failure to meet the assumptions.
 
-## 6.3 Logistic Regression of Apple Phones from non-Apple Phones
+## 6.3: Logistic Regression of Apple Phones from non-Apple Phones
 
 We sought to evaluate our ability to differentiate Apple phones from non-Apple phones using logistic regression.
 
@@ -1439,7 +1439,7 @@ dim(mobil_df[mobil_df$Apple==TRUE,])[1]/dim(mobil_df)[1]
 ```
 Apple phones comprised 9% of dataset and the logistic regression model was able to correctly classify Apple phones 99.2% of the time.
 
-## 6.4 Summary
+## 6.4: Summary
 
 The approach of dividing the dataset into two to apply two linear price regressions to the dataset of Apple phones and the dataset of non-Apple phones illustrated how Romsize and Rating affected Apple phone prices differently than non-Apple phones. The logistic regression of Apple phones proved that it's effective to use logistic regression to determine if a phone is an Apple phone or not using the phone's price, rating and RomSize.
 
